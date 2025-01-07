@@ -1,0 +1,5 @@
+tkinterdnd2
+pillow
+pillow-heif
+PyPDF2
+pyinstaller
