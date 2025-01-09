@@ -1,19 +1,47 @@
-# Dossier pour l'outil de gestion PDF et conversion de fichiers
+# PDF Management and File Conversion Tool
 
-## Mettre à jour vers une nouvelle version de l'outil
+This project provides a tool for managing PDF files and converting files into different formats.
 
-1. Modifier le fichier `pdf_tool.py`.
-2. Double-cliquer sur `update.sh`.
+## Updating to a New Version of the Tool
 
-### Ou
+### Modify the Source File
 
-1. Installer PyInstaller :
-    ```sh
-    pip install pyinstaller
-    ```
-2. Créer un exécutable :
-    ```sh
-    pyinstaller --onefile --windowed --icon=icone.ico pdf_tool.py
-    ```
+To make changes, update the main tool file located in `pdf_tool.py`.
 
-Le fichier exécutable se trouve dans `dist/pdf_tool.exe`.
+### Automatically Generate the Executable for Windows
+
+After modifying the file, double-click or run the `update.sh` script to apply the update.
+
+### Manually Generate the Executable for Windows
+
+### Install PyInstaller
+
+Ensure Python is installed, then install PyInstaller by running the following command:
+
+```bash
+pip install pyinstaller
+```
+
+### Generate the Executable
+
+Create a Windows executable with the windowed option (`--windowed`) and a custom icon (`icone.ico`):
+
+```bash
+pyinstaller --onefile --windowed --icon=icone.ico pdf_tool.py
+```
+
+After creation, the executable file will be located in the `dist/` folder under the name `pdf_tool.exe`.
+
+## Executables for Linux
+
+### Open a Terminal and Run the Script
+
+```bash
+./execute.sh
+```
+
+Ensure you have execution permissions for this script. If necessary, modify the permissions with the following command:
+
+```bash
+chmod +x execute.sh
+```
