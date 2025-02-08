@@ -3,3 +3,7 @@ pillow
 pillow-heif
 PyPDF2
 pyinstaller
+black
+lint
+flake8
+pdf2image

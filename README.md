@@ -14,7 +14,7 @@ After modifying the file, double-click or run the `update.sh` script to apply th
 
 ### Manually Generate the Executable for Windows
 
-### Install PyInstaller
+#### Install PyInstaller
 
 Ensure Python is installed, then install PyInstaller by running the following command:
 
@@ -22,7 +22,7 @@ Ensure Python is installed, then install PyInstaller by running the following co
 pip install pyinstaller
 ```
 
-### Generate the Executable
+#### Generate the Executable
 
 Create a Windows executable with the windowed option (`--windowed`) and a custom icon (`icone.ico`):
 
@@ -45,3 +45,12 @@ Ensure you have execution permissions for this script. If necessary, modify the 
 ```bash
 chmod +x execute.sh
 ```
+
+## Creating Dummy PDFs
+
+Run the `create_pdf.sh` script:
+
+```sh
+./create_pdf.sh
+```
+
