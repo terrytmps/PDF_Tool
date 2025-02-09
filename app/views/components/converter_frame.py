@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from app.core.converter import FileConverter
 
+
 class ConverterFrame(ttk.Frame):
     FORMATS = [("PNG", "png"), ("JPEG", "jpeg"), ("PDF", "pdf")]
 
@@ -23,18 +24,15 @@ class ConverterFrame(ttk.Frame):
 
         for text, value in self.FORMATS:
             ttk.Radiobutton(
-                format_frame,
-                text=text,
-                value=value,
-                variable=self.format_var
+                format_frame, text=text, value=value, variable=self.format_var
             ).pack(side="left", padx=10)
 
         # Bouton de conversion
         ttk.Button(
-            self, 
-            text="Choisir des fichiers à convertir", 
-            style="Accent.TButton", 
-            command=self._convert_files
+            self,
+            text="Choisir des fichiers à convertir",
+            style="Accent.TButton",
+            command=self._convert_files,
         ).grid(row=1, column=0, pady=10, padx=10, sticky="ew")
 
     def _convert_files(self):
@@ -43,8 +41,8 @@ class ConverterFrame(ttk.Frame):
             filetypes=[
                 ("Tous les formats", "*.heic;*.HEIC;*.png;*.jpg;*.jpeg;*.pdf"),
                 ("Images", "*.heic;*.HEIC;*.png;*.jpg;*.jpeg"),
-                ("PDF", "*.pdf")
-            ]
+                ("PDF", "*.pdf"),
+            ],
         )
         if not input_files:
             return
@@ -52,20 +50,18 @@ class ConverterFrame(ttk.Frame):
         try:
             output_format = self.format_var.get()
             results = self.converter.convert_files(
-                input_files, 
-                output_format, 
-                self.output_path
+                input_files, output_format, self.output_path
             )
-            
+
             messagebox.showinfo(
                 "Conversion terminée",
-                f"{len(results)} fichiers convertis avec succès!\n" +
-                f"Emplacement : {self.output_path}",
-                parent=self
+                f"{len(results)} fichiers convertis avec succès!\n"
+                + f"Emplacement : {self.output_path}",
+                parent=self,
             )
         except Exception as e:
             messagebox.showerror(
-                "Erreur de conversion", 
+                "Erreur de conversion",
                 f"Une erreur est survenue :\n{str(e)}",
-                parent=self
+                parent=self,
             )

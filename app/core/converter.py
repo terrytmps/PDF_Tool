@@ -4,10 +4,11 @@ import os
 from PyPDF2 import PdfReader
 from pdf2image import convert_from_path
 
+
 class FileConverter:
     SUPPORTED_INPUT = {
-        'image': ['.png', '.jpg', '.jpeg', '.heic', '.HEIC'],
-        'pdf': ['.pdf']
+        "image": [".png", ".jpg", ".jpeg", ".heic", ".HEIC"],
+        "pdf": [".pdf"],
     }
 
     def convert_files(self, input_paths, output_format, output_dir):
@@ -20,9 +21,9 @@ class FileConverter:
             try:
                 ext = os.path.splitext(path)[1].lower()
 
-                if ext in self.SUPPORTED_INPUT['image']:
+                if ext in self.SUPPORTED_INPUT["image"]:
                     results.append(self._convert_image(path, output_format, output_dir))
-                elif ext == '.pdf':
+                elif ext == ".pdf":
                     results.extend(self._convert_pdf(path, output_format, output_dir))
                 else:
                     raise ValueError(f"Format non supporté : {ext}")
@@ -33,7 +34,7 @@ class FileConverter:
 
     def _convert_image(self, input_path, output_format, output_dir):
         # Gestion spéciale pour HEIC
-        if input_path.lower().endswith(('.heic', '.HEIC')):
+        if input_path.lower().endswith((".heic", ".HEIC")):
             pillow_heif.register_heif_opener()
 
         with Image.open(input_path) as img:
@@ -43,7 +44,7 @@ class FileConverter:
             return output_path
 
     def _convert_pdf(self, input_path, output_format, output_dir):
-        if output_format not in ['png', 'jpeg']:
+        if output_format not in ["png", "jpeg"]:
             raise ValueError("Conversion PDF uniquement vers PNG/JPEG")
 
         base_name = os.path.splitext(os.path.basename(input_path))[0]
@@ -51,7 +52,9 @@ class FileConverter:
         outputs = []
 
         for i, page in enumerate(pages, 1):
-            output_path = os.path.join(output_dir, f"{base_name}_page{i}.{output_format}")
+            output_path = os.path.join(
+                output_dir, f"{base_name}_page{i}.{output_format}"
+            )
             page.save(output_path, output_format.upper())
             outputs.append(output_path)
 

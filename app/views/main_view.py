@@ -25,7 +25,7 @@ class MainWindow(tk.Tk):
         # Onglet Suppression Pages
         remover_tab = RemoverFrame(notebook, self.default_output_path)
         notebook.add(remover_tab, text="Suppression Pages")
-        
+
         # Onglet Conversion
         converter_tab = ConverterFrame(notebook, self.default_output_path)
         notebook.add(converter_tab, text="Conversion Fichiers")
