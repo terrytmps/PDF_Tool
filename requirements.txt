@@ -7,3 +7,4 @@ black
 lint
 flake8
 pdf2image
+pytest
