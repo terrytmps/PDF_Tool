@@ -1,32 +1,50 @@
 from pdf2image import convert_from_path
 from PIL import Image, ImageTk
 import tempfile
-import os
-
+import gc
 
 class PDFPreviewGenerator:
-    def __init__(self, dpi=100, thumbnail_size=(200, 200)):
+    def __init__(self, dpi=72, thumbnail_size=(200, 200), poppler_path=None):
         self.dpi = dpi
         self.thumbnail_size = thumbnail_size
-        self.temp_dir = tempfile.TemporaryDirectory()
 
-    def generate_previews(self, pdf_path):
-        """Convertit un PDF en vignettes d'images"""
+    def generate_previews(self, pdf_path, output_format="JPEG", quality=70, thread_count=2):
+        """Convertit un PDF en vignettes avec gestion mémoire avancée"""
+        temp_dir = tempfile.TemporaryDirectory()
+        
         try:
+            # Conversion PDF -> Images avec paramètres optimisés
             images = convert_from_path(
                 pdf_path,
                 dpi=self.dpi,
-                output_folder=self.temp_dir.name,
-                fmt="png",
-                thread_count=4,
+                output_folder=temp_dir.name,
+                fmt=output_format.lower(),
+                thread_count=thread_count,
+                use_pdftocairo=True,
+                strict=False,
+                jpegopt={"quality": quality, "progressive": True},
             )
 
             previews = []
-            for i, img in enumerate(images):
-                img.thumbnail(self.thumbnail_size)
-                previews.append(ImageTk.PhotoImage(img))
+            for img in images:
+                # Réduction progressive de la taille
+                img.thumbnail(
+                    self.thumbnail_size,
+                    resample=Image.Resampling.LANCZOS
+                )
+                
+                # Conversion pour Tkinter
+                photo_img = ImageTk.PhotoImage(img)
+                previews.append(photo_img)
+                
+                # Nettoyage mémoire explicite
+                del img
+                gc.collect()
+
             return previews
+
         except Exception as e:
-            raise RuntimeError(f"Erreur de conversion PDF : {str(e)}")
+            raise RuntimeError(f"Erreur de conversion : {str(e)}")
+        
         finally:
-            self.temp_dir.cleanup()
+            temp_dir.cleanup()
