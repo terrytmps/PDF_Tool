@@ -4,7 +4,11 @@ import logging
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# if .env file exists, use it, otherwise use .env.example
+env_path = '.env' if os.path.exists('.env') else '.env.example'
+
+# Load environment variables from .env file
+load_dotenv(dotenv_path=env_path)
 
 OUTPUT_DIR = os.getenv("OUTPUT_DIR")
 
