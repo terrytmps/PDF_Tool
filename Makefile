@@ -13,9 +13,9 @@ install:
 	$(PYTHON) -m venv venv
 	venv/bin/pip install -r requirements.txt
 
-# Construire le projet
-build:
-	venv/bin/pyinstaller --onefile --windowed --icon=assets/icone.ico pdf_tool.py
+# Construire un executable Windows
+buildWin:
+	venv/bin/pyinstaller --onefile --windowed --icon=assets/icone.ico app/main.py
 
 # Exécuter l'application
 run:
@@ -50,4 +50,4 @@ execute:
 update:
 	./update.sh
 
-.PHONY: all install build run clean test format lint dist execute update
+.PHONY: all install buildWin run clean test format lint dist execute update

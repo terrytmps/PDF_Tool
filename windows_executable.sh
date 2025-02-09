@@ -10,14 +10,14 @@ if [ ! -f "pdf_tool.py" ]; then
 fi
 
 # Vérifier si l'icône existe
-if [ ! -f "icone.ico" ]; then
+if [ ! -f "assets/icone.ico" ]; then
     echo "Le fichier 'icone.ico' est introuvable dans le répertoire actuel."
     exit 1
 fi
 
 # Générer l'exécutable
 echo "Création de l'exécutable avec PyInstaller..."
-pyinstaller --onefile --windowed --icon=icone.ico pdf_tool.py
+pyinstaller --onefile --windowed --icon=assets/icone.ico app/main.py
 
 # Vérifier si la création a réussi
 if [ $? -eq 0 ]; then
