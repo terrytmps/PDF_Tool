@@ -14,10 +14,10 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title("PDF Toolbox Pro")
         self.geometry("800x600")
-        self.notebook = ttk.Notebook(self)  # Déclarez notebook comme attribut de classe
+        self.notebook = ttk.Notebook(self)
 
         self._create_widgets()
-        self._create_preview_tab()  # Ajoutez cette ligne après la création du notebook
+        self._create_preview_tab()
         self._configure_styles()
 
     def _create_widgets(self):

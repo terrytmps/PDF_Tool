@@ -24,7 +24,9 @@ run:
 # Nettoyer les fichiers générés
 clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR) __pycache__
-	find $(APP_DIR) -type d -name "__pycache__" -exec rm -r {} +
+	find $(APP_DIR) -type d -name "__pycache__" -exec rm -rf {} +
+	find tests -type d -name "__pycache__" -exec rm -rf {} +
+	rm -rf .pytest_cache
 
 # Tâche pour exécuter les tests
 test:
