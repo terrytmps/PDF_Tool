@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+from tkinter.dnd import DndHandler, dnd_start
 from app.core.merger import PdfMergerHandler
 
 
@@ -20,6 +21,9 @@ class MergerFrame(ttk.Frame):
         self.file_listbox.grid(
             row=1, column=0, columnspan=4, sticky="nsew", padx=10, pady=5
         )
+
+        # Enregistrement de la listbox en tant que cible de dépôt
+        self.file_listbox.dnd_accept = self._dnd_accept
 
         # Boutons de contrôle
         control_frame = ttk.Frame(self)
@@ -42,6 +46,26 @@ class MergerFrame(ttk.Frame):
         ttk.Button(
             self, text="Fusionner les PDF", style="Accent.TButton", command=self._merge
         ).grid(row=3, column=0, columnspan=4, pady=10, padx=10, sticky="ew")
+
+    def _dnd_accept(self, source, event):
+        return self
+
+    def dnd_enter(self, source, event):
+        self.file_listbox.focus_force()
+
+    def dnd_leave(self, source, event):
+        pass
+
+    def dnd_motion(self, source, event):
+        pass
+
+    def dnd_commit(self, source, event):
+        data = self.file_listbox.tk.splitlist(event.data)
+        for file_path in data:
+            if file_path.endswith(".pdf") and file_path not in self.file_listbox.get(
+                0, tk.END
+            ):
+                self.file_listbox.insert(tk.END, file_path)
 
     def _add_files(self):
         files = filedialog.askopenfilenames(

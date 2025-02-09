@@ -12,6 +12,8 @@ To automatically generate the executable for Windows, run the following script:
 
 After creation, the executable file will be located in the `dist/` folder under the name `main.exe`.
 
+To execute the script on Windows, "poppler" needs to be installed. The installation guide can be found [here](https://pdf2image.readthedocs.io/en/latest/installation.html).
+
 ## Creating Dummy PDFs
 
 Run the `create_pdf.sh` script:

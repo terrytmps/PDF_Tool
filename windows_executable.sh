@@ -15,6 +15,12 @@ if [ ! -f "assets/icone.ico" ]; then
     exit 1
 fi
 
+# Vérifier si le dossier 'dist' existe
+if [ -f "dist/main.exe" ]; then
+    echo "Suppression de l'ancien exécutable..."
+    rm dist/main.exe
+fi
+
 # Générer l'exécutable
 echo "Création de l'exécutable avec PyInstaller..."
 pyinstaller --onefile --windowed --icon=assets/icone.ico app/main.py

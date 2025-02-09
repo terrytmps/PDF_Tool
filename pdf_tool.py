@@ -3,7 +3,8 @@ from tkinter import filedialog, messagebox
 from tkinter import ttk
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 from PIL import Image
-import pillow_heif  # Nécessaire pour la gestion des fichiers HEIC
+import pillow_heif
+from tkinterdnd2 import TkinterDnD
 import os
 
 # Fonction pour obtenir le chemin vers le dossier Downloads
@@ -155,7 +156,7 @@ def convert_files():
         messagebox.showerror("Erreur", f"Une erreur s'est produite : {e}")
 
 # Création de la fenêtre principale
-root = tk.Tk()
+root = TkinterDnD.Tk()
 root.title("Gestion de fichiers PDF et conversions")
 root.minsize(500, 500)  # Taille minimale de la fenêtre
 
