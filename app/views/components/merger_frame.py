@@ -1,6 +1,9 @@
+import os
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from tkinter.dnd import DndHandler, dnd_start
+
+import urllib
 from app.core.merger import PdfMergerHandler
 
 
@@ -22,8 +25,9 @@ class MergerFrame(ttk.Frame):
             row=1, column=0, columnspan=4, sticky="nsew", padx=10, pady=5
         )
 
-        # Enregistrement de la listbox en tant que cible de dépôt
-        self.file_listbox.dnd_accept = self._dnd_accept
+        # Activation du glisser-déposer
+        self.file_listbox.drop_target_register('*')
+        self.file_listbox.dnd_bind('<<Drop>>', self._handle_drop)
 
         # Boutons de contrôle
         control_frame = ttk.Frame(self)
@@ -47,25 +51,27 @@ class MergerFrame(ttk.Frame):
             self, text="Fusionner les PDF", style="Accent.TButton", command=self._merge
         ).grid(row=3, column=0, columnspan=4, pady=10, padx=10, sticky="ew")
 
-    def _dnd_accept(self, source, event):
-        return self
+    def _handle_drop(self, event):
+        files = self._parse_dropped_files(event.data)
+        for file in files:
+            if file.lower().endswith('.pdf') and file not in self.file_listbox.get(0, tk.END):
+                self.file_listbox.insert(tk.END, file)
 
-    def dnd_enter(self, source, event):
-        self.file_listbox.focus_force()
-
-    def dnd_leave(self, source, event):
-        pass
-
-    def dnd_motion(self, source, event):
-        pass
-
-    def dnd_commit(self, source, event):
-        data = self.file_listbox.tk.splitlist(event.data)
-        for file_path in data:
-            if file_path.endswith(".pdf") and file_path not in self.file_listbox.get(
-                0, tk.END
-            ):
-                self.file_listbox.insert(tk.END, file_path)
+    def _parse_dropped_files(self, data):
+        files = []
+        data = data.strip('{}')
+        parts = data.split('} {')
+        for part in parts:
+            part = part.strip()
+            if part.startswith('file://'):
+                # Handle file URI
+                part = urllib.parse.urlparse(part).path
+                # Adjust path for Windows (remove leading slash)
+                if os.name == 'nt' and len(part) > 2 and part[2] == ':':
+                    part = part[1:]
+                part = urllib.request.url2pathname(part)
+            files.append(part)
+        return files
 
     def _add_files(self):
         files = filedialog.askopenfilenames(

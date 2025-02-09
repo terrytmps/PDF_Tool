@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinterdnd2 import TkinterDnD as TkinterDnD2
 
 from app.views.components.preview_frame import PDFPreviewFrame
 from .components.merger_frame import MergerFrame
@@ -8,7 +9,7 @@ from .components.remover_frame import RemoverFrame
 from .components.converter_frame import ConverterFrame
 
 
-class MainWindow(tk.Tk):
+class MainWindow(TkinterDnD2.Tk):
     def __init__(self, default_output_path):
         self.default_output_path = default_output_path
         super().__init__()
