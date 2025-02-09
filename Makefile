@@ -46,8 +46,9 @@ lint:
 execute:
 	./execute.sh
 
-# Tâche pour mettre à jour le projet
-update:
-	./update.sh
+# Pour la preview des PDF
+install-poppler:
+	sudo apt-get update
+	sudo apt-get install -y poppler-utils
 
-.PHONY: all install buildWin run clean test format lint dist execute update
+.PHONY: all install buildWin run clean test format lint dist execute
