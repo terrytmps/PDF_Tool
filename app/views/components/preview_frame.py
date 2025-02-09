@@ -3,6 +3,7 @@ from tkinter import ttk
 from PIL import ImageTk
 from app.core.pdf_preview import PDFPreviewGenerator
 
+
 class PDFPreviewFrame(ttk.Frame):
     def __init__(self, parent, default_output_path):
         super().__init__(parent)
@@ -13,7 +14,9 @@ class PDFPreviewFrame(ttk.Frame):
     def _create_widgets(self):
         # Canvas avec ascenseur
         self.canvas = tk.Canvas(self)
-        self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.scrollbar = ttk.Scrollbar(
+            self, orient="vertical", command=self.canvas.yview
+        )
         self.preview_container = ttk.Frame(self.canvas)
 
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
@@ -30,7 +33,7 @@ class PDFPreviewFrame(ttk.Frame):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def _on_mousewheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def load_pdf(self, pdf_path):
         """Charge un PDF et affiche les prévisualisations"""
@@ -49,7 +52,7 @@ class PDFPreviewFrame(ttk.Frame):
             label.image = preview  # Garde une référence
             label.pack(padx=5, pady=5)
             ttk.Label(frame, text=f"Page {i+1}").pack()
-            frame.grid(row=i//4, column=i%4, padx=10, pady=10)
+            frame.grid(row=i // 4, column=i % 4, padx=10, pady=10)
         self.current_previews = previews
 
     def _clear_previews(self):

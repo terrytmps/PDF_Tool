@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 import tempfile
 import os
 
+
 class PDFPreviewGenerator:
     def __init__(self, dpi=100, thumbnail_size=(200, 200)):
         self.dpi = dpi
@@ -16,10 +17,10 @@ class PDFPreviewGenerator:
                 pdf_path,
                 dpi=self.dpi,
                 output_folder=self.temp_dir.name,
-                fmt='png',
-                thread_count=4
+                fmt="png",
+                thread_count=4,
             )
-            
+
             previews = []
             for i, img in enumerate(images):
                 img.thumbnail(self.thumbnail_size)

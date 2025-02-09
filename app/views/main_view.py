@@ -15,7 +15,7 @@ class MainWindow(tk.Tk):
         self.title("PDF Toolbox Pro")
         self.geometry("800x600")
         self.notebook = ttk.Notebook(self)  # Déclarez notebook comme attribut de classe
-        
+
         self._create_widgets()
         self._create_preview_tab()  # Ajoutez cette ligne après la création du notebook
         self._configure_styles()
@@ -23,15 +23,15 @@ class MainWindow(tk.Tk):
     def _create_widgets(self):
         # Déplacez la création du notebook dans __init__ et utilisez self.notebook
         self.notebook.pack(expand=True, fill="both", padx=10, pady=10)
-        
+
         # Onglet Fusion PDF
         merger_tab = MergerFrame(self.notebook, self.default_output_path)
         self.notebook.add(merger_tab, text="Fusion PDF")
-        
+
         # Onglet Suppression Pages
         remover_tab = RemoverFrame(self.notebook, self.default_output_path)
         self.notebook.add(remover_tab, text="Suppression Pages")
-        
+
         # Onglet Conversion
         converter_tab = ConverterFrame(self.notebook, self.default_output_path)
         self.notebook.add(converter_tab, text="Conversion Fichiers")
@@ -44,15 +44,15 @@ class MainWindow(tk.Tk):
     def _create_preview_tab(self):
         preview_tab = ttk.Frame(self.notebook)
         self.notebook.add(preview_tab, text="Prévisualisation PDF")
-        
+
         # Contrôles de sélection
         control_frame = ttk.Frame(preview_tab)
         control_frame.pack(fill="x", padx=10, pady=10)
-        
-        ttk.Button(control_frame, 
-                 text="Sélectionner PDF",
-                 command=self._load_preview).pack(side="left")
-        
+
+        ttk.Button(
+            control_frame, text="Sélectionner PDF", command=self._load_preview
+        ).pack(side="left")
+
         self.preview_frame = PDFPreviewFrame(preview_tab, self.default_output_path)
         self.preview_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
