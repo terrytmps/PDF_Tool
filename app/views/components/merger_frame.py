@@ -26,8 +26,8 @@ class MergerFrame(ttk.Frame):
         )
 
         # Activation du glisser-déposer
-        self.file_listbox.drop_target_register('*')
-        self.file_listbox.dnd_bind('<<Drop>>', self._handle_drop)
+        self.file_listbox.drop_target_register("*")
+        self.file_listbox.dnd_bind("<<Drop>>", self._handle_drop)
 
         # Boutons de contrôle
         control_frame = ttk.Frame(self)
@@ -54,20 +54,22 @@ class MergerFrame(ttk.Frame):
     def _handle_drop(self, event):
         files = self._parse_dropped_files(event.data)
         for file in files:
-            if file.lower().endswith('.pdf') and file not in self.file_listbox.get(0, tk.END):
+            if file.lower().endswith(".pdf") and file not in self.file_listbox.get(
+                0, tk.END
+            ):
                 self.file_listbox.insert(tk.END, file)
 
     def _parse_dropped_files(self, data):
         files = []
-        data = data.strip('{}')
-        parts = data.split('} {')
+        data = data.strip("{}")
+        parts = data.split("} {")
         for part in parts:
             part = part.strip()
-            if part.startswith('file://'):
+            if part.startswith("file://"):
                 # Handle file URI
                 part = urllib.parse.urlparse(part).path
                 # Adjust path for Windows (remove leading slash)
-                if os.name == 'nt' and len(part) > 2 and part[2] == ':':
+                if os.name == "nt" and len(part) > 2 and part[2] == ":":
                     part = part[1:]
                 part = urllib.request.url2pathname(part)
             files.append(part)
