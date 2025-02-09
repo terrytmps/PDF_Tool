@@ -2,10 +2,15 @@ import os
 import functools
 import logging
 
+from dotenv import load_dotenv
 
-def get_downloads_folder():
-    """Retourne le chemin du dossier Téléchargements"""
-    return os.path.join(os.path.expanduser("~"), "Downloads")
+load_dotenv()
+
+OUTPUT_DIR = os.getenv("OUTPUT_DIR")
+
+def get_output_dir():
+    """Retourne le chemin du dossier de sortie"""
+    return os.path.expanduser(OUTPUT_DIR)
 
 
 def handle_errors(func):

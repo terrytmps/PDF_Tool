@@ -5,11 +5,8 @@ from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 from PIL import Image
 import pillow_heif
 from tkinterdnd2 import TkinterDnD
+from utils import get_output_dir
 import os
-
-# Fonction pour obtenir le chemin vers le dossier Downloads
-def get_downloads_folder():
-    return os.path.join(os.path.expanduser("~"), "Downloads")
 
 # Liste des formats supportés
 AVAILABLE_FORMATS = ["png", "jpeg", "pdf"]
@@ -54,7 +51,7 @@ def merge_pdfs():
     # Générer un nom pour le fichier fusionné
     base_names = [os.path.basename(file).replace(".pdf", "") for file in files]
     output_file_name = f"merged_{'_'.join(base_names)}.pdf"
-    output_file = os.path.join(get_downloads_folder(), output_file_name)
+    output_file = os.path.join(get_output_dir(), output_file_name)
 
     try:
         merger = PdfMerger()
@@ -81,8 +78,10 @@ def remove_pages():
 
     # Générer un nom pour le fichier modifié
     base_name = os.path.basename(input_file).replace(".pdf", "")
+    max_chars = int(os.environ.get("MAX_FILENAME_CHARS", 50)) # Default to 50 if not set
+    base_name = base_name[:max_chars]
     output_file_name = f"removed_{base_name}.pdf"
-    output_file = os.path.join(get_downloads_folder(), output_file_name)
+    output_file = os.path.join(get_output_dir(), output_file_name)
 
     try:
         reader = PdfReader(input_file)
@@ -125,7 +124,7 @@ def convert_files():
         messagebox.showerror("Erreur", f"Format non supporté : {output_format}.")
         return
 
-    output_folder = get_downloads_folder()
+    output_folder = get_output_dir()
 
     try:
         for input_file in input_files:
