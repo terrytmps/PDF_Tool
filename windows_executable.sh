@@ -1,7 +1,14 @@
 #!/bin/bash
+# Créer et activer un environnement virtuel
+echo "Création de l'environnement virtuel..."
+python -m venv venv
+
+echo "Activation de l'environnement virtuel..."
+venv\Scripts\activate
+
 # Installer les dépendances nécessaires
 echo "Installation des dépendances nécessaires..."
-pip install tkinterdnd2 pillow pillow-heif PyPDF2 pyinstaller
+pip install -r requirements.txt
 
 # Vérifier si le fichier python existe
 if [ ! -f "pdf_tool.py" ]; then
@@ -32,6 +39,10 @@ else
     echo "Une erreur est survenue lors de la génération de l'exécutable."
     exit 1
 fi
+
+# Désactiver l'environnement virtuel
+echo "Désactivation de l'environnement virtuel..."
+deactivate
 
 # Fin
 echo "Terminé !"

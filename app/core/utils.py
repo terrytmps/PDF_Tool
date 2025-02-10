@@ -10,8 +10,7 @@ env_path = '.env' if os.path.exists('.env') else '.env.example'
 # Load environment variables from .env file
 load_dotenv(dotenv_path=env_path)
 
-OUTPUT_DIR = os.getenv("OUTPUT_DIR")
-
+OUTPUT_DIR = os.getenv("OUTPUT_DIR", "~/Desktop")
 
 def get_output_dir():
     """Retourne le chemin du dossier de sortie"""
