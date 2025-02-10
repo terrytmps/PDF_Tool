@@ -6,7 +6,7 @@ from tkinterdnd2 import TkinterDnD as TkinterDnD2
 from app.views.components.preview_frame import PDFPreviewFrame
 from .components.merger_frame import MergerFrame
 from .components.remover_frame import RemoverFrame
-from .components.converter_frame import ConverterFrame
+from .components.converter_frame import PDFPreviewFrame
 
 
 class MainWindow(TkinterDnD2.Tk):
@@ -16,6 +16,13 @@ class MainWindow(TkinterDnD2.Tk):
         self.title("PDF Toolbox Pro")
         self.geometry("800x600")
         self.notebook = ttk.Notebook(self)
+
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.winfo_screenheight() // 2) - (height // 2)
+        self.geometry(f"+{x}+{y}")
 
         self._create_widgets()
         self._create_preview_tab()
@@ -34,7 +41,7 @@ class MainWindow(TkinterDnD2.Tk):
         self.notebook.add(remover_tab, text="Suppression Pages")
 
         # Onglet Conversion
-        converter_tab = ConverterFrame(self.notebook, self.default_output_path)
+        converter_tab = PDFPreviewFrame(self.notebook, self.default_output_path)
         self.notebook.add(converter_tab, text="Conversion Fichiers")
 
     def _configure_styles(self):

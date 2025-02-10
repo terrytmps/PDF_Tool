@@ -9,3 +9,4 @@ flake8
 pdf2image
 pytest
 python-dotenv
+customtkinter
