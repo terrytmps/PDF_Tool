@@ -1,16 +1,20 @@
 import os
 import functools
 import logging
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-# if .env file exists, use it, otherwise use .env.example
-env_path = ".env" if os.path.exists(".env") else ".env.example"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+env_file = BASE_DIR / ".env"
+# If .env doesn't exist in the project root, fallback to .env.example in the same directory
+if not env_file.exists():
+    env_file = BASE_DIR / ".env.example"
 
 # Load environment variables from .env file
-load_dotenv(dotenv_path=env_path)
+load_dotenv(dotenv_path=env_file, override=True)
 
-OUTPUT_DIR = os.getenv("OUTPUT_DIR", "~/Desktop")
+OUTPUT_DIR = os.getenv("OUTPUT_DIR")
 
 
 def get_output_dir():

@@ -1,7 +1,7 @@
 from PIL import Image, ImageTk
 import tkinter as tk
-from tkinter import ttk, messagebox
-from PyPDF2 import PdfReader
+from tkinter import ttk, messagebox, filedialog
+from PyPDF2 import PdfReader, PdfWriter
 from app.core.pdf_preview import PDFPreviewGenerator
 
 
@@ -13,12 +13,19 @@ class PDFPreviewFrame(ttk.Frame):
         self.page_frames = []
         self.current_pdf_path = None
         self.original_rotations = []
+        self.default_output_path = output_path
         self._create_widgets()
 
     def _create_widgets(self):
         # Barre d'outils
         toolbar = ttk.Frame(self)
         toolbar.pack(side="top", fill="x")
+
+        ttk.Button(toolbar, text="Ouvrir PDF", command=self._load_pdf).pack(side="left")
+
+        ttk.Button(toolbar, text="Télécharger PDF", command=self._save_pdf).pack(
+            side="left", padx=10
+        )
 
         # Boutons de rotation
         ttk.Button(
@@ -160,3 +167,43 @@ class PDFPreviewFrame(ttk.Frame):
 
     def _on_mousewheel(self, event):
         self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+    def _load_pdf(self):
+        file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
+        if file_path:
+            self.load_pdf(file_path)
+
+    def _save_pdf(self):
+        if not self.current_pdf_path:
+            messagebox.showerror("Erreur", "Aucun PDF sélectionné")
+            return
+
+        output_path = filedialog.asksaveasfilename(
+            defaultextension=".pdf", filetypes=[("PDF Files", "*.pdf")]
+        )
+        if not output_path:
+            return
+
+        try:
+            # Appliquer les rotations et supprimer les pages sélectionnées
+            reader = PdfReader(self.current_pdf_path)
+            writer = PdfWriter()
+
+            # Itérer sur les pages conservées dans self.page_frames
+            for page_data in self.page_frames:
+                original_page_index = page_data["original_index"]
+                original_page = reader.pages[
+                    original_page_index
+                ]  # Récupérer la page originale avec l'index original
+
+                rotation = page_data["rotation"]
+                original_page.rotate(rotation % 360)
+                writer.add_page(original_page)
+
+            # Sauvegarde
+            with open(output_path, "wb") as f:
+                writer.write(f)
+
+            messagebox.showinfo("Succès", "PDF sauvegardé avec succès")
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Échec de sauvegarde : {str(e)}")
