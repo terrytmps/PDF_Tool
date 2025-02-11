@@ -1,7 +1,4 @@
 from pdf2image import convert_from_path
-from PIL import Image, ImageTk
-import tempfile
-import gc
 import os
 
 
@@ -11,22 +8,15 @@ class PDFPreviewGenerator:
         self.thumbnail_size = thumbnail_size
         self.max_pages = int(os.environ.get("MAX_PREVIEW_PAGES", 5))
 
-    def generate_previews(self, pdf_path, output_format="JPEG", quality=70, thread_count=2):
-        """Convertit un PDF en images PIL avec gestion mémoire avancée"""
+    def generate_previews(self, pdf_path):
+        """Convertit un PDF en images PIL"""
         try:
-            images = convert_from_path(
+            return convert_from_path(
                 pdf_path,
                 dpi=self.dpi,
-                thread_count=thread_count,
+                thread_count=2,
                 use_pdftocairo=True,
                 strict=False,
-            )
-
-            previews = []
-            for i, img in enumerate(images):
-                if i >= self.max_pages:
-                    break
-                previews.append(img)
-            return previews
+            )[: self.max_pages]
         except Exception as e:
             raise RuntimeError(f"Erreur de conversion : {str(e)}")
