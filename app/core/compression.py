@@ -9,9 +9,9 @@ class FileCompressor:
         compression_levels = {
             "less": 9,  # Maximum compression
             "good": 6,  # Default balance
-            "high": 0,  # No compression
+            "high": 3,  # No compression
         }
-        zlib_level = compression_levels.get(compression_level, 6)  # Default to 'good'
+        zlib_level = compression_levels.get(compression_level, 6)
 
         for input_file in input_files:
             try:
