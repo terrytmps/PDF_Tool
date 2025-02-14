@@ -104,9 +104,8 @@ MAX_FILENAME_CHARS=50
 ├── assets/                  # GUI assets and icons
 ├── pdf/                    # Sample PDFs for testing
 ├── src/                    # Application source code
-│   ├── conversion.py       # File conversion logic
-│   ├── pdf_operations.py   # PDF manipulation functions
-│   └── gui.py              # User interface components
+│   ├── core                # File conversion logic
+│   └── views               # User interface components
 ├── requirements.txt        # Python dependencies
 ├── Makefile                # Linux build automation
 ├── pdf_tool.spec           # PyInstaller configuration
