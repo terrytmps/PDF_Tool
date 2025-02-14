@@ -1,3 +1,4 @@
 @echo off
-start "" /MIN python.exe -m app.main
-exit
+cd /d %~dp0
+python -m app.main
+pause
