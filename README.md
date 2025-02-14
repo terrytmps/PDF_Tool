@@ -79,6 +79,21 @@ pyinstaller --onefile --windowed main.py
 # Resulting executable will be in dist/main.exe
 ```
 
+## Configuration
+
+Le fichier `.env` permet de personnaliser le comportement de l'application. Créez-le à la racine du projet avec ces paramètres :
+
+```ini
+# Maximum de pages à prévisualiser
+MAX_PREVIEW_PAGES=50
+
+# Dossier de sauvegarde par défaut (utiliser le chemin absolu)
+OUTPUT_DIR="~/Desktop"
+
+# Longueur maximale des noms de fichier
+MAX_FILENAME_CHARS=50
+```
+
 ## Project Structure
 
 ```bash
