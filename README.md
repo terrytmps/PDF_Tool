@@ -2,6 +2,10 @@
 
 This project provides a tool for managing PDF files and converting files into different formats.
 
+## Prérequis
+
+- [Ghostscript](https://www.ghostscript.com/) **9.50+** doit être installé et accessible via la commande `gs`
+
 ### Generate Executable for Windows
 
 To automatically generate the executable for Windows, run the following script:

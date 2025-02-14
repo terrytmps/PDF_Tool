@@ -10,3 +10,4 @@ pdf2image
 pytest
 python-dotenv
 customtkinter
+PyMuPDF
