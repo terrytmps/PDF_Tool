@@ -2,9 +2,15 @@
 
 A comprehensive desktop application for managing PDF files and converting between popular image formats.
 
-<div style="display: flex; gap: 20px; justify-content: center;">
-  <img src="assets/preview-feature.png" alt="Preview Feature" width="400"/>
-  <img src="assets/merge-feature.png" alt="Merge Feature" width="400"/>
+<div style="display: flex; gap: 30px; justify-content: center; align-items: center; margin: 20px 0;">
+  <figure style="margin: 0;">
+    <img src="assets/merge-feature.png" alt="Fusion de PDF" width="350"/>
+    <figcaption style="text-align: center;">Fonction de fusion</figcaption>
+  </figure>
+  <figure style="margin: 0;">
+    <img src="assets/preview-feature.png" alt="Prévisualisation" width="350"/>
+    <figcaption style="text-align: center;">Aperçu des modifications</figcaption>
+  </figure>
 </div>
 
 ## Key Features
