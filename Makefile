@@ -1,9 +1,7 @@
-# Variables
 PYTHON = python3
 APP_DIR = app
 ASSETS_DIR = assets
 BUILD_DIR = build
-DIST_DIR = dist
 
 # Tâche par défaut
 all: install run
@@ -12,10 +10,6 @@ all: install run
 install:
 	$(PYTHON) -m venv venv
 	venv/bin/pip install -r requirements.txt
-
-# Construire un executable Windows
-buildWin:
-	venv/bin/pyinstaller --onefile --windowed --icon=assets/icone.ico app/main.py
 
 # Exécuter l'application
 run:
@@ -40,17 +34,10 @@ format:
 lint:
 	venv/bin/flake8 $(APP_DIR)
 
-# Tâche pour créer une distribution
-# dist:
-#	$(PYTHON) setup.py sdist bdist_wheel
-
-# Tâche pour exécuter le script shell
-execute:
-	./execute.sh
-
 # Pour la preview des PDF
-install-poppler:
+install-apt-dependencies:
 	sudo apt-get update
 	sudo apt-get install -y poppler-utils
+	sudo apt install ghostscript
 
-.PHONY: all install buildWin run clean test format lint dist execute
+.PHONY: all install run clean test format lint install-apt-dependencies

@@ -1,28 +1,105 @@
 # PDF Management and File Conversion Tool
 
-This project provides a tool for managing PDF files and converting files into different formats.
+A comprehensive desktop application for managing PDF files and converting between popular image formats.
 
-## Prérequis
+![Application Preview](assets/preview.png)
 
-- [Ghostscript](https://www.ghostscript.com/) **9.50+** doit être installé et accessible via la commande `gs`
+## Key Features
 
-### Generate Executable for Windows
+- **PDF Operations**
+  - Merge multiple PDF files
+  - Remove specific pages from PDFs
+  - Preview document before applying changes
+  - Compress PDFs (High/Medium/Low quality)
+  - Rotate pages with visual preview
 
-To automatically generate the executable for Windows, run the following script:
+- **File Conversion**
+  - Supported input formats: PDF, HEIC, JPEG, JPG, PNG
+  - Supported output formats: PNG, JPEG, JPG, HEIC
+
+- **User Interface**
+  - Interactive preview of rotations and page deletions
+  - Progress indicators for long-running operations
+  - Preset configuration profiles for common workflows
+
+## Future Roadmap
+
+- AI-powered PDF summarization
+- Custom default save directory configuration
+- Batch processing capabilities
+- Cloud storage integration
+
+## Prerequisites
+
+**System Requirements :**
+- **Poppler Utilities** (v24.08.0+)
+  - Linux: `poppler-utils` package
+  - Windows: [Download installer](https://poppler.freedesktop.org/)
+  
+- **Ghostscript** (v9.50+)
+  - Linux: `ghostscript` package
+  - Windows: [Download installer](https://www.ghostscript.com/)
+
+**Python Requirements :**
+- Python 3.8+
+- PIP package manager
+
+
+## Installation on Linux/Debian Systems
+```bash
+# Install system dependencies
+sudo apt install poppler-utils ghostscript
+
+# Install Python requirements
+pip install -r requirements.txt
+
+# Launch application
+python3 -m main
+```
+
+## Installation on Windows Systems
+
+1. Install [Poppler for Windows](https://github.com/oschwartz10612/poppler-windows/releases/)
+2. Install [Ghostscript](https://www.ghostscript.com/releases/gsdnld.html)
+3. Add both to system PATH
+4. Choose installation method:
+
+**Option 1: Python Environment**
+```bat
+pip install -r requirements.txt
+executer_pdf_tool.bat
+```
+
+**Option 2: Standalone Executable**
 
 ```bash
-./windows_executable.sh
+# Build executable using PyInstaller
+pyinstaller --onefile --windowed main.py
+
+# Resulting executable will be in dist/main.exe
 ```
 
-After creation, the executable file will be located in the `dist/` folder under the name `main.exe`.
+## Project Structure
 
-To execute the script on Windows, "poppler" needs to be installed. The installation guide can be found [here](https://pdf2image.readthedocs.io/en/latest/installation.html).
-
-## Creating Dummy PDFs
-
-Run the `create_pdf.sh` script:
-
-```sh
-./create_pdf.sh
+```bash
+.
+├── assets/                  # GUI assets and icons
+├── pdf/                    # Sample PDFs for testing
+├── src/                    # Application source code
+│   ├── conversion.py       # File conversion logic
+│   ├── pdf_operations.py   # PDF manipulation functions
+│   └── gui.py              # User interface components
+├── requirements.txt        # Python dependencies
+├── Makefile                # Linux build automation
+├── pdf_tool.spec           # PyInstaller configuration
+└── windows_executable.bat  # Windows build script
 ```
 
+## Development
+
+Contribution guidelines:
+
+1. Fork the repository
+2. Create feature branch: git checkout -b feature/new-feature
+3. Commit changes following Conventional Commits
+4. Push to branch and open a Pull Request
