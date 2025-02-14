@@ -1,53 +1,56 @@
 import os
-import subprocess
 import shutil
+import subprocess
+from pathlib import Path
 
 class FileCompressor:
     def __init__(self):
-        if not shutil.which('gs'):
-            raise SystemExit("Erreur: Ghostscript (gs) n'est pas installé ou n'est pas dans le PATH.\n"
-                             "Voir https://www.ghostscript.com/ pour l'installation.")
-    
+        # Détermine le nom de l'exécutable Ghostscript selon l'OS
+        self.gs_executable = "gswin64c" if os.name == "nt" else "gs"
+        
+        if not shutil.which(self.gs_executable):
+            raise SystemExit(
+                f"Erreur: Ghostscript ({self.gs_executable}) n'est pas installé ou n'est pas dans le PATH.\n"
+                "Voir https://www.ghostscript.com/ pour l'installation.\n"
+                "Sur Windows, vérifiez que le nom de l'exécutable est bien gswin64c.exe"
+            )
+
     def compress_files(self, input_files, output_path, compression_level="good"):
         compressed_files = []
-        # Associe les niveaux de compression aux paramètres Ghostscript
         gs_presets = {
-            "less": "/screen",    # Compression élevée (qualité réduite)
-            "good": "/ebook",     # Compression équilibrée
-            "high": "/prepress"   # Qualité maximale (compression minimale)
+            "less": "/screen",
+            "good": "/ebook",
+            "high": "/prepress"
         }
         preset = gs_presets.get(compression_level, "/ebook")
 
         for input_file in input_files:
             try:
-                # Crée le dossier de sortie si nécessaire
                 os.makedirs(output_path, exist_ok=True)
                 
-                # Génère le nom du fichier de sortie
-                base_name = os.path.splitext(os.path.basename(input_file))[0]
-                output_filename = f"{base_name}_compressed.pdf"
-                output_filepath = os.path.join(output_path, output_filename)
-
-                # Construction de la commande Ghostscript
+                # Génération du chemin POSIX
+                base_name = Path(input_file).stem
+                output_filepath = Path(output_path) / f"{base_name}_compressed.pdf"
+                
+                # Conversion des chemins en format slash
                 gs_command = [
-                    'gs',
-                    '-q',  # Mode silencieux
+                    self.gs_executable,
+                    '-q',
                     '-sDEVICE=pdfwrite',
                     '-dCompatibilityLevel=1.4',
                     f'-dPDFSETTINGS={preset}',
                     '-dNOPAUSE',
                     '-dBATCH',
-                    f'-sOutputFile={output_filepath}',
-                    input_file
+                    f'-sOutputFile={output_filepath.as_posix()}',
+                    Path(input_file).as_posix()
                 ]
 
-                # Exécute la commande
-                subprocess.run(gs_command, check=True)
-                compressed_files.append(output_filepath)
+                subprocess.run(gs_command, check=True, capture_output=True)
+                compressed_files.append(output_filepath.as_posix())
             
             except subprocess.CalledProcessError as e:
-                print(f"Erreur lors de la compression de {input_file} : {e}")
+                print(f"Erreur Ghostscript ({e.returncode}) : {e.stderr.decode()}")
             except Exception as e:
-                print(f"Erreur inattendue avec {input_file} : {e}")
+                print(f"Erreur avec {input_file} : {str(e)}")
         
         return compressed_files
